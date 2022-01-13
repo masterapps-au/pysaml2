@@ -350,7 +350,7 @@ class Server(Entity):
         session_not_on_or_after=None,
         sign_alg=None,
         digest_alg=None,
-        **kwargs,
+        **kwargs
     ):
         """
         Construct and return the Assertion
@@ -575,7 +575,7 @@ class Server(Entity):
         sign_alg=None,
         digest_alg=None,
         farg=None,
-        **kwargs,
+        **kwargs
     ):
         """ Create an attribute assertion response.
 
@@ -637,7 +637,7 @@ class Server(Entity):
             digest_alg=digest_alg,
             assertion=assertion,
             sp_entity_id=sp_entity_id,
-            **kwargs,
+            **kwargs
         )
 
     def gather_authn_response_args(
@@ -755,7 +755,7 @@ class Server(Entity):
         sign_alg=None,
         digest_alg=None,
         session_not_on_or_after=None,
-        **kwargs,
+        **kwargs
     ):
         """ Constructs an AuthenticationResponse
 
@@ -801,7 +801,7 @@ class Server(Entity):
                 encrypt_assertion_self_contained=encrypt_assertion_self_contained,
                 encrypted_advice_attributes=encrypted_advice_attributes,
                 pefim=pefim,
-                **kwargs,
+                **kwargs
             )
         except IOError as exc:
             response = self.create_error_response(
@@ -827,7 +827,7 @@ class Server(Entity):
                 sign_alg=sign_alg,
                 digest_alg=digest_alg,
                 session_not_on_or_after=session_not_on_or_after,
-                **args,
+                **args
             )
         except MissingValue as exc:
             return self.create_error_response(
@@ -857,7 +857,7 @@ class Server(Entity):
         session_not_on_or_after=None,
         sign_alg=None,
         digest_alg=None,
-        **kwargs,
+        **kwargs
     ):
         return self.create_authn_response(
             identity,
@@ -919,7 +919,7 @@ class Server(Entity):
         status=None,
         sign_alg=None,
         digest_alg=None,
-        **kwargs,
+        **kwargs
     ):
         """
         protocol for mapping a principal's name identifier into a
@@ -960,7 +960,7 @@ class Server(Entity):
         status=None,
         sign_alg=None,
         digest_alg=None,
-        **kwargs,
+        **kwargs
     ):
         """
         A successful <Response> will contain one or more assertions containing
@@ -991,7 +991,7 @@ class Server(Entity):
             to_sign=[],
             sign_alg=sign_alg,
             digest_alg=digest_alg,
-            **args,
+            **args
         )
 
     # ---------
@@ -1016,7 +1016,7 @@ class Server(Entity):
         sign_assertion=None,
         sign_alg=None,
         digest_alg=None,
-        **kwargs,
+        **kwargs
     ):
 
         # ----------------------------------------

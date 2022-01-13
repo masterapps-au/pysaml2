@@ -1,21 +1,13 @@
 *************************
-PySAML2 - SAML2 in Python
+PySAML2 - SAML2 in Python 2.7
 *************************
 
 :Version: see VERSION_
 :Documentation: https://pysaml2.readthedocs.io/
 
-.. image:: https://api.travis-ci.com/IdentityPython/pysaml2.png?branch=master
-    :target: https://travis-ci.com/IdentityPython/pysaml2
+**This is a Python 2.7 fork of PySAML2. It will be updated to match IdentityPython/pysaml2 master from time to time.**
 
-.. image:: https://img.shields.io/pypi/pyversions/pysaml2.svg
-    :target: https://pypi.org/project/pysaml2/
-
-.. image:: https://img.shields.io/pypi/v/pysaml2.svg
-    :target: https://pypi.org/project/pysaml2/
-
-
-PySAML2 is a pure python implementation of SAML Version 2 Standard. It contains
+PySAML2 is a pure python 2.7 implementation of SAML Version 2 Standard. It contains
 all necessary pieces for building a SAML2 service provider or an identity
 provider. The distribution contains examples of both. Originally written to
 work in a WSGI environment there are extensions that allow you to use it with

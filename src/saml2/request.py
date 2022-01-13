@@ -1,4 +1,5 @@
 import logging
+import six
 
 from saml2 import time_util
 from saml2 import BINDING_HTTP_REDIRECT
@@ -69,7 +70,7 @@ class Request(object):
             )
         except Exception as e:
             self.message = None
-            raise incorrectly_signed from e
+            six.raise_from(incorrectly_signed, e)
 
         if sign_redirect:
             if sigalg is None or signature is None:
@@ -86,7 +87,7 @@ class Request(object):
                 sig_verified = self._do_redirect_sig_check(_saml_msg)
             except Exception as e:
                 self.message = None
-                raise incorrectly_signed from e
+                six.raise_from(incorrectly_signed, e)
             else:
                 if not sig_verified:
                     self.message = None

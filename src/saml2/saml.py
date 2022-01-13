@@ -14,7 +14,10 @@
 #
 
 
-import base64
+try:
+    from base64 import encodebytes as b64encode
+except ImportError:
+    from base64 import b64encode
 
 from saml2.validate import valid_ipv4, MustValueError
 from saml2.validate import valid_ipv6
@@ -248,11 +251,12 @@ class AttributeValueBase(SamlBase):
             raise ValueError(msg)
 
         # only work with six.string_types
+        _str = unicode if six.PY2 else str
         if isinstance(value, six.binary_type):
             value = value.decode('utf-8')
 
         type_to_xsd = {
-            str:        'string',
+            _str:        'string',
             int:        'integer',
             float:      'float',
             bool:       'boolean',
@@ -265,53 +269,53 @@ class AttributeValueBase(SamlBase):
         # - a function to turn that type into a text-value
         xsd_types_props = {
             'string': {
-                'type': str,
-                'to_type': str,
-                'to_text': str,
+                'type': _str,
+                'to_type': _str,
+                'to_text': _str,
             },
             'integer': {
                 'type': int,
                 'to_type': int,
-                'to_text': str,
+                'to_text': _str,
             },
             'short': {
                 'type': int,
                 'to_type': int,
-                'to_text': str,
+                'to_text': _str,
             },
             'int': {
                 'type': int,
                 'to_type': int,
-                'to_text': str,
+                'to_text': _str,
             },
             'long': {
                 'type': int,
                 'to_type': int,
-                'to_text': str,
+                'to_text': _str,
             },
             'float': {
                 'type': float,
                 'to_type': float,
-                'to_text': str,
+                'to_text': _str,
             },
             'double': {
                 'type': float,
                 'to_type': float,
-                'to_text': str,
+                'to_text': _str,
             },
             'boolean': {
                 'type': bool,
                 'to_type': lambda x: {
                     'true': True,
                     'false': False,
-                }[str(x).lower()],
-                'to_text': lambda x: str(x).lower(),
+                }[_str(x).lower()],
+                'to_text': lambda x: _str(x).lower(),
             },
             'base64Binary': {
-                'type': str,
-                'to_type': str,
+                'type': _str,
+                'to_type': _str,
                 'to_text': (
-                    lambda x: base64.encodebytes(x.encode()) if base64encode else x
+                    lambda x: b64encode(x.encode()) if base64encode else x
                 ),
             },
             'anyType': {
@@ -346,7 +350,7 @@ class AttributeValueBase(SamlBase):
         to_text = xsd_type_props.get('to_text', str)
 
         # cast to correct type before type-checking
-        if type(value) is str and valid_type is not str:
+        if type(value) is _str and valid_type is not _str:
             try:
                 value = to_type(value)
             except (TypeError, ValueError, KeyError):

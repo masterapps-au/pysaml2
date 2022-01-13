@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 #
 
+from __future__ import absolute_import
+
 """
 Suppport for the client part of the SAML2.0 SOAP binding.
 """

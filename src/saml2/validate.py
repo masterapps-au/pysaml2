@@ -1,4 +1,5 @@
 import calendar
+import six
 from six.moves.urllib.parse import urlparse
 import re
 import struct
@@ -124,7 +125,7 @@ def valid_address(address):
 def valid_ipv4(address):
     """Validate IPv4 addresses."""
     try:
-        IPv4Address(address)
+        IPv4Address(six.text_type(address))
     except AddressValueError:
         return False
     return True
@@ -135,7 +136,7 @@ def valid_ipv6(address):
     is_enclosed_in_brackets = address.startswith("[") and address.endswith("]")
     address_raw = address[1:-1] if is_enclosed_in_brackets else address
     try:
-        IPv6Address(address_raw)
+        IPv6Address(six.text_type(address_raw))
     except AddressValueError:
         return False
     return True

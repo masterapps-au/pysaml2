@@ -1,8 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from base64 import encodebytes as b64encode
-from base64 import decodebytes as b64decode
+try:
+    from base64 import encodebytes as b64encode
+    from base64 import decodebytes as b64decode
+except ImportError:
+    from base64 import b64encode
+    from base64 import b64decode
 import uuid
 import six
 from six.moves.urllib import parse
@@ -1691,10 +1695,10 @@ class TestClient:
         qs_simple = list_values2simpletons(qs)
 
         invalid_signature = 'ZEdMZUQ3SjBjQ2ozWmlGaHhyV3JZSzNkTWhQWU02bjA0dzVNeUd1UWgrVDhnYm1oc1R1TTFjPQo='
-        qs_simple_invalid = {
-            **qs_simple,
+        qs_simple_invalid = dict(
+            qs_simple, **{
             'Signature': invalid_signature,
-        }
+        })
         assert not verify_redirect_signature(qs_simple_invalid, client.sec.sec_backend)
 
         self.server.config.setattr("idp", "want_authn_requests_signed", True)

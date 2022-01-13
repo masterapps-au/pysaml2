@@ -13,7 +13,7 @@ from pathutils import full_path
 __author__ = 'roland'
 
 TMPL_NO_HEADER = """<ns0:EncryptedData xmlns:ns0="http://www.w3.org/2001/04/xmlenc#" xmlns:ns1="http://www.w3.org/2000/09/xmldsig#" Id="{ed_id}" Type="http://www.w3.org/2001/04/xmlenc#Element"><ns0:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#tripledes-cbc" /><ns1:KeyInfo><ns0:EncryptedKey Id="{ek_id}"><ns0:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p" />{key_info}<ns0:CipherData><ns0:CipherValue /></ns0:CipherData></ns0:EncryptedKey></ns1:KeyInfo><ns0:CipherData><ns0:CipherValue /></ns0:CipherData></ns0:EncryptedData>"""
-TMPL = f"<?xml version='1.0' encoding='UTF-8'?>\n{TMPL_NO_HEADER}"
+TMPL = "<?xml version='1.0' encoding='UTF-8'?>\n{}".format(TMPL_NO_HEADER)
 
 IDENTITY = {"eduPersonAffiliation": ["staff", "member"],
             "surName": ["Jeter"], "givenName": ["Derek"],
@@ -44,7 +44,7 @@ def test_pre_enc_key_format():
 
 def test_pre_enc_with_pregenerated_key():
     tmpl = pre_encryption_part(encrypted_key_id="EK", encrypted_data_id="ED")
-    expected = TMPL_NO_HEADER.format(
+    expected = TMPL.format(
         ed_id=tmpl.id,
         ek_id=tmpl.key_info.encrypted_key.id,
         key_info=''
@@ -54,7 +54,7 @@ def test_pre_enc_with_pregenerated_key():
 
 def test_pre_enc_with_generated_key():
     tmpl = pre_encryption_part()
-    expected = TMPL_NO_HEADER.format(
+    expected = TMPL.format(
         ed_id=tmpl.id,
         ek_id=tmpl.key_info.encrypted_key.id,
         key_info=''
@@ -63,7 +63,7 @@ def test_pre_enc_with_generated_key():
 
 def test_pre_enc_with_named_key():
     tmpl = pre_encryption_part(key_name="my-rsa-key")
-    expected = TMPL_NO_HEADER.format(
+    expected = TMPL.format(
         ed_id=tmpl.id,
         ek_id=tmpl.key_info.encrypted_key.id,
         key_info='<ns1:KeyInfo><ns1:KeyName>my-rsa-key</ns1:KeyName></ns1:KeyInfo>'

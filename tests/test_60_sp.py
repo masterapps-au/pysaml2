@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from base64 import encodebytes as b64encode
+try:
+    from base64 import encodebytes as b64encode
+except ImportError:
+    from base64 import b64encode
 
 import pytest
 from saml2.authn_context import INTERNETPROTOCOLPASSWORD

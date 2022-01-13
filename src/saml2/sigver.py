@@ -115,8 +115,8 @@ class CertificateError(SigverError):
 def get_pem_wrapped_unwrapped(cert):
     begin_cert = "-----BEGIN CERTIFICATE-----\n"
     end_cert = "\n-----END CERTIFICATE-----\n"
-    unwrapped_cert = re.sub(f'{begin_cert}|{end_cert}', '', cert)
-    wrapped_cert = f'{begin_cert}{unwrapped_cert}{end_cert}'
+    unwrapped_cert = re.sub('{}|{}'.format(begin_cert, end_cert), '', cert)
+    wrapped_cert = '{}{}{}'.format(begin_cert, unwrapped_cert, end_cert)
     return wrapped_cert, unwrapped_cert
 
 
@@ -770,14 +770,18 @@ class CryptoBackendXmlSec1(CryptoBackend):
         :param key_type: The type of session key to use.
         :return: The encrypted text
         """
+        if six.PY2:
+            _str = unicode
+        else:
+            _str = str
 
         if isinstance(statement, SamlBase):
             statement = pre_encrypt_assertion(statement)
 
-        tmp = make_temp(str(statement),
+        tmp = make_temp(_str(statement),
                         decode=False,
                         delete_tmpfiles=self.delete_tmpfiles)
-        tmp2 = make_temp(str(template),
+        tmp2 = make_temp(_str(template),
                          decode=False,
                          delete_tmpfiles=self.delete_tmpfiles)
 
@@ -1491,7 +1495,7 @@ class SecurityContext(object):
                 "type": node_name,
                 "document": decoded_xml,
             }
-            raise SignatureError(error_context) from e
+            six.raise_from(SignatureError(error_context), e)
 
         try:
             _schema.validate(str(item))
@@ -1504,7 +1508,7 @@ class SecurityContext(object):
                 "type": node_name,
                 "document": decoded_xml,
             }
-            raise SignatureError(error_context) from e
+            six.raise_from(SignatureError(error_context), e)
 
         # saml-core section "5.4 XML Signature Profile" defines constrains on the
         # xmldsig-core facilities. It explicitly dictates that enveloped signatures
@@ -1942,7 +1946,6 @@ def pre_signature_part(
 
 
 def pre_encryption_part(
-    *,
     msg_enc=TRIPLE_DES_CBC,
     key_enc=RSA_OAEP_MGF1P,
     key_name=None,

@@ -259,7 +259,7 @@ class Entity(HTTPBase):
         response=False,
         sign=None,
         sigalg=None,
-        **kwargs,
+        **kwargs
     ):
         """
         Construct the necessary HTTP arguments dependent on Binding
@@ -566,7 +566,7 @@ class Entity(HTTPBase):
         nsprefix=None,
         sign_alg=None,
         digest_alg=None,
-        **kwargs,
+        **kwargs
     ):
         """
         Some parameters appear in all requests so simplify by doing
@@ -731,7 +731,7 @@ class Entity(HTTPBase):
         pefim=False,
         sign_alg=None,
         digest_alg=None,
-        **kwargs,
+        **kwargs
     ):
         """ Create a Response.
             Encryption:
@@ -975,7 +975,7 @@ class Entity(HTTPBase):
         sign=None,
         sign_alg=None,
         digest_alg=None,
-        **kwargs,
+        **kwargs
     ):
         """ Create a StatusResponse.
 
@@ -1002,7 +1002,7 @@ class Entity(HTTPBase):
             version=VERSION,
             issue_instant=instant(),
             status=status,
-            **kwargs,
+            **kwargs
         )
 
         sign = sign if sign is not None else self.should_sign
@@ -1105,7 +1105,7 @@ class Entity(HTTPBase):
         issuer=None,
         sign_alg=None,
         digest_alg=None,
-        **kwargs,
+        **kwargs
     ):
         """ Create a error response.
 
@@ -1203,7 +1203,7 @@ class Entity(HTTPBase):
             issuer=self._issuer(),
             sign_alg=sign_alg,
             digest_alg=digest_alg,
-            **args,
+            **args
         )
 
     # XXX DONE ent create > _status_response
@@ -1240,7 +1240,7 @@ class Entity(HTTPBase):
             sign,
             sign_alg=sign_alg,
             digest_alg=digest_alg,
-            **rinfo,
+            **rinfo
         )
 
         logger.info("Response: %s", response)
@@ -1310,7 +1310,7 @@ class Entity(HTTPBase):
             sign=sign,
             sign_alg=sign_alg,
             digest_alg=digest_alg,
-            **rinfo,
+            **rinfo
         )
 
         msg = element_to_extension_element(self.artifact[artifact])
@@ -1379,7 +1379,7 @@ class Entity(HTTPBase):
             sign=sign,
             sign_alg=sign_alg,
             digest_alg=digest_alg,
-            **kwargs,
+            **kwargs
         )
 
     def parse_manage_name_id_request(self, xmlstr, binding=BINDING_SOAP):
@@ -1405,7 +1405,7 @@ class Entity(HTTPBase):
         issuer=None,
         sign_alg=None,
         digest_alg=None,
-        **kwargs,
+        **kwargs
     ):
 
         rinfo = self.response_args(request, bindings)
@@ -1417,7 +1417,7 @@ class Entity(HTTPBase):
             sign,
             sign_alg=sign_alg,
             digest_alg=digest_alg,
-            **rinfo,
+            **rinfo
         )
 
         logger.info("Response: %s", response)
@@ -1442,7 +1442,7 @@ class Entity(HTTPBase):
         service,
         binding,
         outstanding_certs=None,
-        **kwargs,
+        **kwargs
     ):
         """ Deal with a Response
 

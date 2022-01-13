@@ -7,6 +7,7 @@ library. Reference: https://cryptography.io/en/latest/fernet/
 import base64 as _base64
 import os as _os
 import logging
+import six
 from warnings import warn as _warn
 
 import cryptography.fernet as _fernet
@@ -43,7 +44,7 @@ class Fernet(object):
             try:
                 raw_key = _base64.b64decode(key)
             except Exception as e:
-                raise fernet_key_error from e
+                six.raise_from(fernet_key_error, e)
             else:
                 if len(raw_key) != 32:
                     raise fernet_key_error

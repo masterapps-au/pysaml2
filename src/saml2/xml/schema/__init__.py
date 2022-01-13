@@ -13,15 +13,57 @@ from xmlschema.exceptions import XMLSchemaException as XMLSchemaError
 import saml2.data.schemas as _data_schemas
 
 
+if sys.version_info[:2] < (3, 0):
+    import os.path
+    from urlparse import urlsplit
+    from xmlschema import resources
+    from xmlschema import XMLSchema as BaseXMLSchema
+    from xmlschema.exceptions import XMLSchemaValueError
+    from xmlschema.namespaces import NamespaceResourcesMap
+    
+    # Monkey patch get_locations to always use our locations
+    # This works around a bug that wouldn't pass the locations to child schemas
+    def get_locations(self, namespace):
+        locations = NamespaceResourcesMap(self.source.get_locations(_locations))
+        try:
+            return list(locations[namespace])
+        except KeyError:
+            return []
+    
+    _XMLSchema.get_locations = get_locations
+    
+    # Monkey patch resources.urlopen to simulate sandbox restrictions in Python 2.7
+    _old_urlopen = resources.urlopen
+    
+    def _urlopen(url, *args, **kwargs):
+        if resources.is_remote_url(url):
+            raise XMLSchemaValueError("block access to remote resource {}".format(url))
+        else:
+            path = os.path.normpath(os.path.normcase(urlsplit(url).path))
+            base_path = os.path.normpath(os.path.normcase(urlsplit(str(_schema_resources)).path))
+            if not path.startswith(base_path):
+                raise XMLSchemaValueError("block access to out of sandbox file {}".format(path))
+         
+        return _old_urlopen(url, *args, **kwargs)
+    
+    resources.urlopen = _urlopen
+     
+    # Monkey path _XMLSchema.FALLBACK_LOCATIONS to simulate use_fallback=False in Python 2.7
+    _XMLSchema.FALLBACK_LOCATIONS = []
+
+
 def _create_xml_schema_validator(source, **kwargs):
-    kwargs = {
-        **kwargs,
+    kwargs = dict(
+        kwargs, **{
         "validation": "strict",
         "locations": _locations,
         "base_url": source,
         "allow": "sandbox",
         "use_fallback": False,
-    }
+    })
+    if sys.version_info[:2] < (3, 0):
+        kwargs.pop('allow', None)
+        kwargs.pop('use_fallback', None)
     return _XMLSchema(source, **kwargs)
 
 

@@ -3,7 +3,10 @@
 import datetime
 import re
 import os
-from unittest.mock import patch
+try:
+    from unittest.mock import patch
+except ImportError:
+    from mock import patch
 
 from saml2.mdstore import MetadataStore, MetaDataMDX
 from saml2.mdstore import locations

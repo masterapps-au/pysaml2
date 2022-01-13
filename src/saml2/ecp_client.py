@@ -99,7 +99,7 @@ class Client(Entity):
         headers=None,
         sign=False,
         sign_alg=None,
-        **kwargs,
+        **kwargs
     ):
         """
         Doing the second phase of the ECP conversation, the conversation

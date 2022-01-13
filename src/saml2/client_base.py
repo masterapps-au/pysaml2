@@ -304,7 +304,7 @@ class Base(Entity):
         digest_alg=None,
         allow_create=None,
         requested_attributes=None,
-        **kwargs,
+        **kwargs
     ):
         """ Creates an authentication request.
 
@@ -491,7 +491,7 @@ class Base(Entity):
             protocol_binding=binding,
             scoping=scoping,
             nsprefix=nsprefix,
-            **args,
+            **args
         )
 
         return msg
@@ -509,7 +509,7 @@ class Base(Entity):
         sign_prepare=None,
         sign_alg=None,
         digest_alg=None,
-        **kwargs,
+        **kwargs
     ):
         """ Constructs an AttributeQuery
 
@@ -596,7 +596,7 @@ class Base(Entity):
         sign=None,
         sign_alg=None,
         digest_alg=None,
-        **kwargs,
+        **kwargs
     ):
         """ Creates an authz decision query.
 
@@ -625,7 +625,7 @@ class Base(Entity):
             subject=subject,
             sign_alg=sign_alg,
             digest_alg=digest_alg,
-            **kwargs,
+            **kwargs
         )
 
     # XXX DONE sp create > self.create_authz_decision_query (FIXME pass sign/sign_alg/etc) > _message
@@ -794,10 +794,10 @@ class Base(Entity):
             extensions,
             sign,
             name_id_policy=name_id_policy,
-            **id_attr,
             nsprefix=nsprefix,
             sign_alg=sign_alg,
             digest_alg=digest_alg,
+            **id_attr
         )
 
     # ======== response handling ===========
@@ -927,7 +927,7 @@ class Base(Entity):
         sign=None,
         sign_alg=None,
         digest_alg=None,
-        **kwargs,
+        **kwargs
     ):
         """ Makes an authentication request.
 
@@ -992,7 +992,7 @@ class Base(Entity):
                 sign=sign,
                 sign_alg=sign_alg,
                 digest_alg=digest_alg,
-                **kwargs,
+                **kwargs
             )
 
         # ----------------------------------------

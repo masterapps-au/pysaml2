@@ -5,8 +5,12 @@ import os
 import re
 from re import compile as regex_compile
 from collections import OrderedDict
-from unittest.mock import Mock
-from unittest.mock import patch
+try:
+    from unittest.mock import Mock
+    from unittest.mock import patch
+except ImportError:
+    from mock import Mock
+    from mock import patch    
 
 from pytest import raises
 

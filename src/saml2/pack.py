@@ -7,6 +7,8 @@ Bindings normally consists of three parts:
 - which protocol to use
 """
 
+from __future__ import absolute_import
+
 import base64
 try:
     import html

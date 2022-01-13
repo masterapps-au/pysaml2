@@ -201,3 +201,11 @@ Session.vim
 tags
 # Persistent undo
 [._]*.un~
+
+# DBs
+eptid.db
+
+# Eclipse
+/.project
+/.pydevproject
+/.settings/org.eclipse.core.resources.prefs

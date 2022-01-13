@@ -1,7 +1,11 @@
 from datetime import datetime
 from dateutil import parser
-from unittest.mock import Mock
-from unittest.mock import patch
+try:
+    from unittest.mock import Mock
+    from unittest.mock import patch
+except ImportError:
+    from mock import Mock
+    from mock import patch
 
 from pytest import raises
 

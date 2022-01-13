@@ -617,13 +617,13 @@ class InMemoryMetaData(MetaData):
             self.entities_descr = md.entities_descriptor_from_string(xmlstr)
         except Exception as e:
             _md_desc = (
-                f'metadata file: {self.filename}'
+                'metadata file: {}'.format(self.filename)
                 if isinstance(self,MetaDataFile)
-                else f'remote metadata: {self.url}'
+                else 'remote metadata: {}'.format(self.url)
                 if isinstance(self, MetaDataExtern)
                 else 'metadata'
             )
-            raise SAMLError(f'Failed to parse {_md_desc}') from e
+            six.raise_from(SAMLError('Failed to parse {}'.format(_md_desc)), e)
 
         if not self.entities_descr:
             self.entity_descr = md.entity_descriptor_from_string(xmlstr)
@@ -754,7 +754,7 @@ class InMemoryMetaData(MetaData):
                     "message": "Failed to verify signature",
                     "node_name": self.node_name,
                 }
-                raise SignatureError(error_context) from e
+                six.raise_from(SignatureError(error_context), e)
             else:
                 return True
 
@@ -769,7 +769,7 @@ class InMemoryMetaData(MetaData):
                 return True
 
         descriptor_names = [
-            f"{ns}:{tag}"
+            "{}:{}".format(ns, tag)
             for ns, tag in [
                 (EntitiesDescriptor.c_namespace, EntitiesDescriptor.c_tag),
                 (EntityDescriptor.c_namespace, EntityDescriptor.c_tag),
@@ -1422,10 +1422,10 @@ class MetadataStore(MetaData):
             if elem["__class__"] != classnames["mdattr_entityattributes"]:
                 continue
             for attr in elem["attribute"]:
-                res[attr["name"]] = [
-                    *res.get(attr["name"], []),
-                    *(v["text"] for v in attr.get("attribute_value", []))
-                ]
+                res[attr["name"]] = (
+                    list(res.get(attr["name"], [])) +
+                    [v["text"] for v in attr.get("attribute_value", [])]
+                )
         return res
 
     def supported_algorithms(self, entity_id):

@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import
+
 """Contains base classes representing SAML elements.
 
     These codes were originally written by Jeffrey Scudder for

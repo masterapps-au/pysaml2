@@ -1,6 +1,10 @@
 from datetime import datetime
-from unittest.mock import Mock
-from unittest.mock import patch
+try:
+    from unittest.mock import Mock
+    from unittest.mock import patch
+except ImportError:
+    from mock import Mock
+    from mock import patch
 
 from saml2.config import config_factory
 from saml2.response import authn_response

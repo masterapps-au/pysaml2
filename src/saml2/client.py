@@ -49,7 +49,7 @@ class Saml2Client(Base):
         sigalg=None,
         digest_alg=None,
         response_binding=saml2.BINDING_HTTP_POST,
-        **kwargs,
+        **kwargs
     ):
         """ Makes all necessary preparations for an authentication request.
 
@@ -81,7 +81,7 @@ class Saml2Client(Base):
             sigalg=sigalg,
             digest_alg=digest_alg,
             response_binding=response_binding,
-            **kwargs,
+            **kwargs
         )
 
         if negotiated_binding != binding:
@@ -107,7 +107,7 @@ class Saml2Client(Base):
         response_binding=saml2.BINDING_HTTP_POST,
         sigalg=None,
         digest_alg=None,
-        **kwargs,
+        **kwargs
     ):
         """ Makes all necessary preparations for an authentication request
         that negotiates which binding to use for authentication.
@@ -165,7 +165,7 @@ class Saml2Client(Base):
                 sign=sign_post,
                 sign_alg=sigalg,
                 digest_alg=digest_alg,
-                **kwargs,
+                **kwargs
             )
 
             _req_str = str(request)
@@ -242,7 +242,7 @@ class Saml2Client(Base):
         expected_binding=None,
         sign_alg=None,
         digest_alg=None,
-        **kwargs,
+        **kwargs
     ):
         """
 
@@ -281,13 +281,13 @@ class Saml2Client(Base):
             )
             bindings_slo_choices = filter(
                 lambda x: x,
-                (
+                ((
                     expected_binding,
-                    *bindings_slo_preferred_and_supported,
-                    *bindings_slo_supported,
+                ) + tuple(bindings_slo_preferred_and_supported)
+                  + tuple(bindings_slo_supported)
                 )
             )
-            binding = next(bindings_slo_choices, None)
+            binding = next(iter(bindings_slo_choices), None)
             if not binding:
                 logger.info(
                     {
@@ -356,20 +356,20 @@ class Saml2Client(Base):
                 if response and response.status_code == 200:
                     not_done.remove(entity_id)
                     response_text = response.text
-                    log_report_response = {
-                        **log_report,
+                    log_report_response = dict(
+                        log_report, **{
                         "message": "Response from SLO service",
                         "response_text": response_text,
-                    }
+                    })
                     logger.debug(log_report_response)
                     res = self.parse_logout_request_response(response_text, binding)
                     responses[entity_id] = res
                 else:
-                    log_report_response = {
-                        **log_report,
+                    log_report_response = dict(
+                        log_report, **{
                         "message": "Bad status_code response from SLO service",
                         "status_code": (response and response.status_code),
-                    }
+                    })
                     logger.info(log_report_response)
             else:
                 self.state[req_id] = {
